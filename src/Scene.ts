@@ -1,7 +1,10 @@
 import * as THREE from 'three'
+import { fragmentShader } from './shaders/fragmentShader'
+import { vertexShader } from './shaders/vertexShader'
 export class Scene {
 
   private _scene = new THREE.Scene()
+  private _container: HTMLElement
   private _camera: THREE.PerspectiveCamera
   private _renderer: THREE.WebGLRenderer
   private _axis: THREE.AxesHelper
@@ -10,34 +13,29 @@ export class Scene {
   private _geometry: THREE.BoxGeometry
   private _box: THREE.Mesh
   private _uniforms : any
-
-
   constructor() {
     this._renderer = new THREE.WebGLRenderer()
     this._axis = new THREE.AxesHelper(10)
     this._light = new THREE.DirectionalLight(0xffffff, 1.0)
     this._geometry = new THREE.BoxGeometry(1, 1, 1)
     this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    //this._material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, wireframe: true})
     this._uniforms = {
       time: { type: "f", value: 1.0 },
       resolution: { type: "v2", value: new THREE.Vector2() }
-  };
+  }
     this._material = new THREE.ShaderMaterial({ 
       uniforms: this._uniforms,
-    
-      vertexShader: document.getElementById( 'vertexShader' ).textContent,
-    
-      fragmentShader: document.getElementById( 'fragmentShader' ).textContent
-    
+      vertexShader,
+      fragmentShader,
     })
+    
     this._box = new THREE.Mesh(this._geometry, this._material)
-
   }
 
   public setup = () => {
-    document.body.appendChild(this._renderer.domElement)
-    this._renderer.setSize(window.innerWidth, window.innerHeight)
+    this._container = document.getElementById('container')
+    this._container.appendChild(this._renderer.domElement)
+    this._renderer.setSize(this._container.clientWidth, this._container.clientHeight)
     this._light.position.set(100, 100, 100)
     this._box.position.x = 0.5
     this._box.rotation.y = 0.5

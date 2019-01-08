@@ -5,11 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --inline --open"
+    "start": "webpack-dev-server --inline"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pinqy520/three-typescript-starter.git"
+    "type": "git"
   },
   "keywords": [],
   "author": "Huang Qi",
