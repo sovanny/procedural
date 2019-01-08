@@ -21,7 +21,8 @@ export class Scene {
     this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     this._uniforms = {
       time: { type: "f", value: 1.0 },
-      resolution: { type: "v2", value: new THREE.Vector2() }
+      resolution: { type: "v2", value: new THREE.Vector2() 
+    }
   }
     this._material = new THREE.ShaderMaterial({ 
       uniforms: this._uniforms,
