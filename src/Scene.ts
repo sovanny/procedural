@@ -57,9 +57,9 @@ export class Scene {
     this._renderer.setSize(this._container.clientWidth, this._container.clientHeight)
     this._scene.add(this._plane)
     this._camera.position.z = 1
+    this._snake.setup()
     document.getElementById('container').style.width = `${this._resolution.x}px`
     document.getElementById('container').style.height = `${this._resolution.y}px`
-    this._snake.setup()
     document.addEventListener('keydown', this.keyboardInput);
   }
 
