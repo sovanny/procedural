@@ -1,7 +1,9 @@
 import * as THREE from 'three'
+import { WEBGL } from './webgl2/WebGL'
 import { fragmentShader } from './shaders/fragmentShader'
 import { vertexShader } from './shaders/vertexShader'
 import { Snake } from './Snake';
+
 
 const secondsOnMillisecond = 0.001 
 
@@ -13,7 +15,7 @@ export class Scene {
   private _renderer: THREE.WebGLRenderer
   private _material: THREE.ShaderMaterial
   private _geometry: THREE.PlaneGeometry
-  private _box: THREE.Mesh
+  private _plane: THREE.Mesh
   private _uniforms : any
   private _createdAt: Date
   private _resolution: THREE.Vector2
@@ -21,8 +23,8 @@ export class Scene {
 
   constructor(width: number, height: number) {
     this._resolution = new THREE.Vector2(width, height)
-    this._renderer = new THREE.WebGLRenderer()
     this._camera = new THREE.PerspectiveCamera(53.1, 1, 0.1, 2)
+    this._renderer = new THREE.WebGLRenderer()
     this._geometry = new THREE.PlaneGeometry(1, 1)
     this._snake = new Snake()
     this._uniforms = {
@@ -35,15 +37,25 @@ export class Scene {
       vertexShader,
       fragmentShader,
     })
-    this._box = new THREE.Mesh(this._geometry, this._material)
+    this._plane = new THREE.Mesh(this._geometry, this._material)
     this._createdAt = new Date()
   }
+  private checkWebGL2 = () => {
+    if ( WEBGL.isWebGL2Available() === false ) {
 
+      document.body.appendChild( WEBGL.getWebGL2ErrorMessage() );
+    
+    }
+  }
   public setup = () => {
+    this.checkWebGL2()
+    /*let canvas = document.createElement( 'canvas' )
+    let context = canvas.getContext( 'webgl2' )
+    this._renderer = new THREE.WebGLRenderer( { canvas: canvas, context: context } )*/
     this._container = document.getElementById('container')
     this._container.appendChild(this._renderer.domElement)
     this._renderer.setSize(this._container.clientWidth, this._container.clientHeight)
-    this._scene.add(this._box)
+    this._scene.add(this._plane)
     this._camera.position.z = 1
     document.getElementById('container').style.width = `${this._resolution.x}px`
     document.getElementById('container').style.height = `${this._resolution.y}px`
