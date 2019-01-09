@@ -7,12 +7,11 @@ export class Snake {
  
   constructor() {
     this._position = new THREE.Vector2(0.5, 0.5)
-    this._direction = new THREE.Vector2(0.5, 0.5)
-    this._speed = 0.007
+    this._direction = new THREE.Vector2(1.0, 0.0)
   }
 
   public setup = () => {
-
+    this._speed = 0.007
   }
 
   public move = (time: number) => {
