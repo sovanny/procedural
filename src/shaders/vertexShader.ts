@@ -2,6 +2,7 @@ export const vertexShader = `
   uniform float time;
   uniform vec2 resolution;
   void main() {
-    gl_Position = vec4( position , 1.0 );
+    vec4 modelViewPosition = modelViewMatrix * vec4( position, 1.0 );
+    gl_Position = projectionMatrix * modelViewPosition;
   }
 `
