@@ -15,11 +15,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #232324;
+  background: #444;
 }
 
 #container {
-  width: 900px;
-  height: 600px;
+  width: 720px;
+  height: 720px;
   overflow: hidden;
+  box-shadow: 1px 3px 10px rgba(0,0,0,0.6);
+  background: #666;
 }
