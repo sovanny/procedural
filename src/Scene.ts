@@ -22,6 +22,7 @@ export class Scene {
   private _resolution: THREE.Vector2
   private _snake: Snake
   private _candy: Candy
+  private _eatCandyDistance: number
 
   constructor(width: number, height: number) {
     this._resolution = new THREE.Vector2(width, height)
@@ -34,6 +35,7 @@ export class Scene {
       time: { type: "f", value: 0.0 },
       resolution: { type: "v2", value: this._resolution},
       snakePosition: { type: "v2", value: this._snake.position},
+      snakeRadius: {type: "f", value: this._snake.radius},
       candyPosition: { type: "v2", value: this._candy.position},
       candyRadius: {type: "f", value: this._candy.radius}
     }
@@ -64,6 +66,7 @@ export class Scene {
     this._camera.position.z = 1
     this._snake.setup()
     this._candy.setup()
+    this._eatCandyDistance = this._candy.radius + this._snake.radius //+ 0.01
     document.getElementById('container').style.width = `${this._resolution.x}px`
     document.getElementById('container').style.height = `${this._resolution.y}px`
     document.addEventListener('keydown', this.keyboardInput);
@@ -75,7 +78,13 @@ export class Scene {
     this._renderer.render(this._scene, this._camera)
     requestAnimationFrame(this.render)
     this._snake.move(seconds)
-    
+    this.checkCandyCollision()
+  }
+
+  public checkCandyCollision = () =>{
+    if (this._snake.position.distanceTo(this._candy.position) <  this._eatCandyDistance){
+      this._candy.setup(); //byt till spawn()
+    }
   }
   
   public keyboardInput = (event: KeyboardEvent) => {
