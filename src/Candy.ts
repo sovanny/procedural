@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+
 export class Candy {
 
   private _position: THREE.Vector2

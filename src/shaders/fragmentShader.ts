@@ -16,8 +16,8 @@ export const fragmentShader = `
     vec3 snakeColor = vec3(1.0, 0.3, 0.3) * step(length(snakePosition - vec2(x, y)), snakeRadius);
     vec3 candyColor = vec3(0.3, 1.0, 1.0) * step(length(candyPosition - vec2(x, y)), candyRadius);
     vec3 notBGColors = snakeColor + candyColor;
-    
-    vec3 backgroundColor = vec3(0.5, 0.5, 0.5) * step(length(notBGColors), 0.0);
+    vec3 backgroundColor = vec3(0.75, 0.7, 0.5);
+    backgroundColor = backgroundColor * step(length(notBGColors), 0.0);
     gl_FragColor = vec4(backgroundColor + notBGColors, 1.0);
   }
 `
