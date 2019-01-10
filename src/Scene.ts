@@ -3,6 +3,7 @@ import { WEBGL } from './webgl2/WebGL'
 import { fragmentShader } from './shaders/fragmentShader'
 import { vertexShader } from './shaders/vertexShader'
 import { Snake } from './Snake';
+import { Candy } from './Candy';
 
 
 const secondsOnMillisecond = 0.001 
@@ -20,6 +21,7 @@ export class Scene {
   private _createdAt: Date
   private _resolution: THREE.Vector2
   private _snake: Snake
+  private _candy: Candy
 
   constructor(width: number, height: number) {
     this._resolution = new THREE.Vector2(width, height)
@@ -27,10 +29,13 @@ export class Scene {
     this._renderer = new THREE.WebGLRenderer()
     this._geometry = new THREE.PlaneGeometry(1, 1)
     this._snake = new Snake()
+    this._candy = new Candy()
     this._uniforms = {
       time: { type: "f", value: 0.0 },
       resolution: { type: "v2", value: this._resolution},
       snakePosition: { type: "v2", value: this._snake.position},
+      candyPosition: { type: "v2", value: this._candy.position},
+      candyRadius: {type: "f", value: this._candy.radius}
     }
     this._material = new THREE.ShaderMaterial({ 
       uniforms: this._uniforms,
@@ -58,6 +63,7 @@ export class Scene {
     this._scene.add(this._plane)
     this._camera.position.z = 1
     this._snake.setup()
+    this._candy.setup()
     document.getElementById('container').style.width = `${this._resolution.x}px`
     document.getElementById('container').style.height = `${this._resolution.y}px`
     document.addEventListener('keydown', this.keyboardInput);
@@ -69,6 +75,7 @@ export class Scene {
     this._renderer.render(this._scene, this._camera)
     requestAnimationFrame(this.render)
     this._snake.move(seconds)
+    
   }
   
   public keyboardInput = (event: KeyboardEvent) => {
