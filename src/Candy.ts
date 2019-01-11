@@ -14,7 +14,7 @@ export class Candy {
     this._radius = 0.02
     this._colorBase = new THREE.Vector3(0.5, 0.5, 0.5)
     this._colorAccent =new THREE.Vector3(0.1, 0.1, 0.1)
-    this._nColors = 2
+    this._nColors = 4
     this._colorSchemes = new Array(this._nColors*2)
   }
 
@@ -48,9 +48,17 @@ export class Candy {
     this._colorSchemes[0] = new THREE.Vector3(0.3, 0.43, 0.12)  //base
     this._colorSchemes[1] = new THREE.Vector3(0.16, 0.16, 0.06) //accent
 
-    // polka color
+    // polka color  - classic red
     this._colorSchemes[2] = new THREE.Vector3(0.999, 0.999, 0.999)
     this._colorSchemes[3] = new THREE.Vector3(0.0, -.999, -.999)
+
+    // polka color  - yellow
+    this._colorSchemes[4] = new THREE.Vector3(0.999, 0.999, 0.999)
+    this._colorSchemes[5] = new THREE.Vector3(0.0, -.3, -.8)
+
+    // polka color  - blue
+    this._colorSchemes[6] = new THREE.Vector3(0.999, 0.999, 0.999)
+    this._colorSchemes[7] = new THREE.Vector3(-.7, -.6, -.1)
   }
 
   private newColorScheme = (i: number)  =>{
