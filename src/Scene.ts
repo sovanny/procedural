@@ -5,6 +5,7 @@ import { Input, InputManager } from './InputManager'
 import { fragmentShader } from './shaders/fragmentShader'
 import { vertexShader } from './shaders/vertexShader'
 import { Snake } from './Snake'
+import { Score } from './Score'
 
 const secondsOnMillisecond = 0.001
 
@@ -27,6 +28,7 @@ export class Scene {
   private _candy: Candy
   private _inputManager: InputManager
   private _eatCandyDistance: number
+  private _score: Score
 
   constructor(width: number, height: number) {
     this._resolution = new THREE.Vector2(width, height)
@@ -35,6 +37,7 @@ export class Scene {
     this._geometry = new THREE.PlaneGeometry(1, 1)
     this._snake = new Snake()
     this._candy = new Candy()
+    this._score = new Score()
     this._inputManager = new InputManager()
     this._uniforms = {
       time: { type: "f", value: 0.0 },
@@ -85,7 +88,9 @@ export class Scene {
 
   public checkCandyCollision = () => {
     if (this._snake.position.distanceTo(this._candy.position) < this._eatCandyDistance) {
-      this._candy.setup()
+      this._candy.setup() // byt till spawn så småningom
+      this._score.eatCandy()
+      console.log(this._score.candiesEaten);
     }
   }
 }

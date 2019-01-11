@@ -6,6 +6,7 @@ export const fragmentShader = `
   uniform vec2 resolution;
   uniform vec2 snakePosition;
   uniform float snakeRadius;
+  //uniform float snakeSize;
   uniform vec2 candyPosition;
   uniform float candyRadius;
 
