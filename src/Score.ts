@@ -7,7 +7,7 @@ export class Score{
     }
 
     public eatCandy = () => {
-        this.candiesEaten += 1;
+        this.candiesEaten = 1;
     }
 
     set candiesEaten(c: number){ this._candiesEaten =c}

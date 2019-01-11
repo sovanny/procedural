@@ -26,7 +26,6 @@ export class Scene {
   private _resolution: THREE.Vector2
   private _snake: Snake
   private _candy: Candy
-  private _candyColor: THREE.Vector3
   private _inputManager: InputManager
   private _eatCandyDistance: number
   private _score: Score
@@ -47,7 +46,8 @@ export class Scene {
       snakeRadius: { type: "f", value: this._snake.radius },
       candyPosition: { type: "v2", value: this._candy.position },
       candyRadius: { type: "f", value: this._candy.radius },
-      candyColorScheme: { type: "v3", value: this._candy.color },
+      candyColorBase: { type: "v3", value: this._candy.colorBase },
+      candyColorAccent: { type: "v3", value: this._candy.colorAccent}, 
       score: { type: "i", value: this._score.candiesEaten}
     }
     this._material = new THREE.ShaderMaterial({

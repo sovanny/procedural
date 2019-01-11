@@ -8,7 +8,8 @@ export const fragmentShader = `
   uniform float snakeRadius;
   uniform vec2 candyPosition;
   uniform float candyRadius;
-  uniform vec3 candyColorScheme;
+  uniform vec3 candyColorBase;
+  uniform vec3 candyColorAccent;
   uniform int score;
 
   void main()	{
@@ -22,14 +23,14 @@ export const fragmentShader = `
     float cY = (y - candyPosition.y) / candyRadius;
 
     float divides = 8.0;
-    float minorNoise  = float(score);
+    float minorNoise  = sin(pow(float(score), 2.0) + length(vec2(cX, cY)));
 
-    float atanAngle = atan(cX, cY) + minorNoise;
-    float intensity = floor(sin(atanAngle*divides));
+    float atanAngle = atan(cX , cY );
+    float intensity = abs(floor(sin((atanAngle+ minorNoise)*divides)));
 
-    candyR = candyColorScheme.x + 0.16*intensity;
-    candyG = candyColorScheme.y + 0.16*intensity;
-    candyB = candyColorScheme.z + 0.06*intensity;
+    candyR = candyColorBase.x + candyColorAccent.x*intensity;
+    candyG = candyColorBase.y + candyColorAccent.y*intensity;
+    candyB = candyColorBase.z + candyColorAccent.z*intensity;
 
     //vec3 candyColor = vec3(0.3, 1.0, 1.0) * step(length(candyPosition - vec2(x, y)), candyRadius);
     vec3 candyColor = vec3(candyR, candyG, candyB)* step(length(candyPosition - vec2(x, y)), candyRadius);;
@@ -45,7 +46,8 @@ export const fragmentShader = `
 
     
     vec3 notBGColors = snakeColor + candyColor;
-    backgroundColor = backgroundColor * step(length(notBGColors), 0.0);
+    //en dålig metod för bakgrund, nu blir allt som är perfekt vitt genomskingligt istället
+    backgroundColor = backgroundColor * step(length(notBGColors), 0.0); 
     gl_FragColor = vec4(backgroundColor + notBGColors, 1.0);
   }
 `
