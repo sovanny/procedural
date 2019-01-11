@@ -45,7 +45,8 @@ export class Scene {
       snakePosition: { type: "v2", value: this._snake.position },
       snakeRadius: { type: "f", value: this._snake.radius },
       candyPosition: { type: "v2", value: this._candy.position },
-      candyRadius: { type: "f", value: this._candy.radius }
+      candyRadius: { type: "f", value: this._candy.radius },
+      score: { type: "i", value: this._score.candiesEaten}
     }
     this._material = new THREE.ShaderMaterial({
       uniforms: this._uniforms,
@@ -88,7 +89,7 @@ export class Scene {
 
   public checkCandyCollision = () => {
     if (this._snake.position.distanceTo(this._candy.position) < this._eatCandyDistance) {
-      this._candy.setup() // byt till spawn så småningom
+      this._candy.spawn(this._snake.position)
       this._score.eatCandy()
       console.log(this._score.candiesEaten);
     }

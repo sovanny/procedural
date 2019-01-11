@@ -14,7 +14,7 @@ export class Candy {
     this.setRandPosition(0+this.radius, new THREE.Vector2(0.4, 0.4), new THREE.Vector2(0.6, 0.6), 1-this.radius)
   }
 
-  public spawn = (time: number, snakePosition: THREE.Vector2) => {
+  public spawn = (snakePosition: THREE.Vector2) => {
     let excludeLower = snakePosition.subScalar(0.2);
     let excludeUpper = snakePosition.addScalar(0.2);
     this.setRandPosition(0+this.radius, excludeLower, excludeUpper, 1-this.radius);
