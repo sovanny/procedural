@@ -1,3 +1,5 @@
+import { candyShader } from "./candyShader";
+
 export const fragmentShader = `
   #ifdef GL_ES
   precision highp float;
@@ -12,30 +14,22 @@ export const fragmentShader = `
   uniform vec3 candyColorAccent;
   uniform int score;
 
+  const vec3 lightPos = vec3(1.0,2.0,2.0);
+  const vec3 specColor = vec3(1.0, 1.0, 1.0);
+
   void main()	{
     float x = gl_FragCoord.x / resolution.x;
     float y = gl_FragCoord.y / resolution.y;
 
-    /**** CANDY ****/
-    float candyR, candyG, candyB;
-    
-    float cX = (x - candyPosition.x) / candyRadius;
-    float cY = (y - candyPosition.y) / candyRadius;
+    vec3 fragPos = vec3(0.0, 0.0, 0.0);
+    vec3 cameraPos = vec3(0.,0.,1.);
 
-    float divides = 8.0;
-    float minorNoise  = sin(pow(float(score), 2.0) + length(vec2(cX, cY)));
+    vec3 lightDir = normalize(lightPos - fragPos);
+    vec3 viewDir = normalize(cameraPos - fragPos);
 
-    float atanAngle = atan(cX , cY );
-    float intensity = abs(floor(sin((atanAngle+ minorNoise)*divides)));
+    vec3 texNorm = vec3(0.0, 0.0, 9.0);
 
-    candyR = candyColorBase.x + candyColorAccent.x*intensity;
-    candyG = candyColorBase.y + candyColorAccent.y*intensity;
-    candyB = candyColorBase.z + candyColorAccent.z*intensity;
-
-    //vec3 candyColor = vec3(0.3, 1.0, 1.0) * step(length(candyPosition - vec2(x, y)), candyRadius);
-    vec3 candyColor = vec3(candyR, candyG, candyB)* step(length(candyPosition - vec2(x, y)), candyRadius);;
-
-
+    ${candyShader}
 
     /**** SNAKE ****/
     vec3 snakeColor = vec3(1.0, 0.3, 0.3) * step(length(snakePosition - vec2(x, y)), snakeRadius);
@@ -48,6 +42,31 @@ export const fragmentShader = `
     vec3 notBGColors = snakeColor + candyColor;
     //en dålig metod för bakgrund, nu blir allt som är perfekt vitt genomskingligt istället
     backgroundColor = backgroundColor * step(length(notBGColors), 0.0); 
-    gl_FragColor = vec4(backgroundColor + notBGColors, 1.0);
+    vec3 finalColor = backgroundColor + notBGColors;
+
+    /**** normal mapping ****/
+
+    vec3 ambient = 0.3 * finalColor;
+
+    vec3 norm = normalize(texNorm * 2.0 - 1.0);
+    float diffuse = max(dot(lightDir, norm), 0.0);
+    vec3 reflectDir = reflect(-lightDir, norm);
+
+    float lambertian = max(dot(lightDir,norm), 0.0);
+    float specular = 0.0;
+
+    if(lambertian > 0.0) {
+       float specAngle = max(dot(reflectDir, viewDir), 0.0);
+       specular = pow(specAngle, 4.0);
+    }
+    /*gl_FragColor = vec4(ambient +
+                      lambertian*diffuse +
+                      specular*specColor, 1.0);
+                      */
+
+    //gl_FragColor = vec4(diffuse * finalColor + ambient, 1.0);
+
+
+    gl_FragColor = vec4(finalColor, 1.0);
   }
 `
