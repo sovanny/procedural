@@ -12,19 +12,20 @@ export const candyShader = `
     float atanAngle = atan(cX , cY );
     float intensity = sin((atanAngle+ minorNoise)*divides);
 
+    float bulgeFactor = abs(intensity*candyRadius*0.05);
+
     candyR = candyColorBase.x + candyColorAccent.x*abs(floor(intensity));
     candyG = candyColorBase.y + candyColorAccent.y*abs(floor(intensity));
     candyB = candyColorBase.z + candyColorAccent.z*abs(floor(intensity));
 
-    float bulgeFactor = abs(intensity*candyRadius*0.1);
-
     //vec3 candyColor = vec3(0.3, 1.0, 1.0) * step(length(candyPosition - vec2(x, y)), candyRadius);
     vec3 candyColor = vec3(candyR, candyG, candyB)* step(candyDist, candyRadius + bulgeFactor);
 
-    float normDist = candyDist/candyRadius;
+    float normDist = candyDist/(candyRadius + bulgeFactor);
 
-    if(candyDist < candyRadius){ //ta bort if-sats
-        texNorm = normalize(vec3(normDist, normDist, normDist));
+    if(candyDist < candyRadius + bulgeFactor){ //ta bort if-sats
+        texNorm = normalize( vec3( normDist ) );
+        
     }
 
 

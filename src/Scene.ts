@@ -91,7 +91,7 @@ export class Scene {
 
   public checkCandyCollision = () => {
     if (this._snake.position.distanceTo(this._candy.position) < this._eatCandyDistance) {
-      this._candy.spawn(this._snake.position)
+      this._candy.spawn(this._snake.position, this._frameTime)
       this._score.eatCandy()
       console.log(this._score.candiesEaten);
     }
