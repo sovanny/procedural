@@ -14,7 +14,7 @@ export const fragmentShader = `
   uniform vec3 candyColorAccent;
   uniform int score;
 
-  const vec3 lightPos = vec3(0.8,0.25,10.0);
+  const vec3 lightPos = vec3(0.5, 1.5, 5.);
   const vec3 specColor = vec3(1.0, 1.0, 1.0);
 
   void main()	{
@@ -24,13 +24,18 @@ export const fragmentShader = `
     vec3 fragPos = vec3(x, y, 0.0);
     vec3 cameraPos = vec3(0.,0.,1.);
 
+    //fragPos = vec3(gl_FragCoord);
     vec3 lightDir = normalize(lightPos - fragPos);
     vec3 viewDir = normalize(cameraPos - fragPos);
 
+    float texValue = 0.0;
     vec3 texNorm = normalize(vec3(0.0, 0.0, 1.0));
 
     ${candyShader}
 
+  
+
+   
     /**** SNAKE ****/
     vec3 snakeColor = vec3(1.0, 0.3, 0.3) * step(length(snakePosition - vec2(x, y)), snakeRadius);
 
@@ -43,26 +48,7 @@ export const fragmentShader = `
     //en dålig metod för bakgrund, nu blir allt som är perfekt vitt genomskingligt istället
     backgroundColor = backgroundColor * step(length(notBGColors), 0.0); 
     vec3 finalColor = backgroundColor + notBGColors;
-
-    /**** normal mapping ****/
-
-    vec3 ambient = 0.3 * finalColor;
-
-    vec3 norm = normalize(texNorm * 2.0 - 1.0);
-    float diffuse = max(dot(lightDir, norm), 0.0);
-    vec3 reflectDir = reflect(-lightDir, norm);
-
-    float lambertian = max(dot(lightDir,norm), 0.0);
-    float specular = 0.0;
-
-    if(lambertian > 0.0) {
-       float specAngle = max(dot(reflectDir, viewDir), 0.0);
-       specular = pow(specAngle, 4.0);
-    }
-    /*gl_FragColor = vec4(ambient +
-                      lambertian*diffuse +
-                      specular*specColor, 1.0);*/
-                      
+                        
     gl_FragColor = vec4(finalColor, 1.0);
   }
 `

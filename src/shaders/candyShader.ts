@@ -22,11 +22,55 @@ export const candyShader = `
     vec3 candyColor = vec3(candyR, candyG, candyB)* step(candyDist, candyRadius + bulgeFactor);
 
     float normDist = candyDist/(candyRadius + bulgeFactor);
+    float offsetX =1./resolution.x;
+    float offsetY = 1./resolution.y;
 
-    if(candyDist < candyRadius + bulgeFactor){ //ta bort if-sats
-        texNorm = normalize( vec3( normDist ) );
+    /*
+    if(candyDist < candyRadius + bulgeFactor){ 
+
+        texNorm = vec3(1. - pow(normDist, 16.0));
+        vec3 a = vec3(x, y, texNorm);
+
+        float xo = x + offsetX;
+        float yo = y + offsetY;
+
+        candyDist = length(candyPosition - vec2(xo, y));
+        normDist = candyDist/(candyRadius + bulgeFactor);
+        texNorm = vec3(1. - pow(normDist, 16.0));
+        vec3 b = vec3(xo, y, texNorm);
+
+        candyDist = length(candyPosition - vec2(x, yo));
+        normDist = candyDist/(candyRadius + bulgeFactor);
+        texNorm = vec3(1. - pow(normDist, 16.0));
+        vec3 c = vec3(x, yo, texNorm);
         
+        texNorm =normalize(cross((b-a),(c-a)));
+
+        // normal mapping 
+
+        vec3 normal = texNorm;
+        vec3 vertPos = fragPos;
+        
+        float lambertian = max(dot(lightDir,normal), 0.0);
+        float specular = 0.0;
+    
+        if(lambertian > 0.0) {
+    
+          vec3 reflectDir = reflect(-lightDir, normal);
+          vec3 viewDir = normalize(-vertPos);
+    
+          float specAngle = max(dot(reflectDir, viewDir), 0.0);
+          specular = pow(specAngle, 4.0);
+    
+    
+        }
+        candyColor = candyColor*0.4 + lambertian*candyColor + specular*specColor;  
+    
+
     }
+*/
+
+    
 
 
 
