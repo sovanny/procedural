@@ -11,7 +11,7 @@ export class Candy {
  
   constructor() {
     this._position = new THREE.Vector2(0.5, 0.5)
-    this._radius = 0.02
+    this._radius = 0.025
     this._colorBase = new THREE.Vector3(0.5, 0.5, 0.5)
     this._colorAccent =new THREE.Vector3(0.1, 0.1, 0.1)
     this._nColors = 4
@@ -24,7 +24,7 @@ export class Candy {
     this.newColorScheme(THREE.Math.randInt(0,this._nColors-1))
   }
 
-  public spawn = (snakePosition: THREE.Vector2) => {
+  public spawn = (snakePosition: THREE.Vector2, time: number) => {
     let excludeLower = snakePosition.subScalar(0.2);
     let excludeUpper = snakePosition.addScalar(0.2);
     this.newColorScheme(THREE.Math.randInt(0,this._nColors-1))

@@ -14,20 +14,20 @@ export const fragmentShader = `
   uniform vec3 candyColorAccent;
   uniform int score;
 
-  const vec3 lightPos = vec3(1.0,2.0,2.0);
+  const vec3 lightPos = vec3(0.8,0.25,10.0);
   const vec3 specColor = vec3(1.0, 1.0, 1.0);
 
   void main()	{
     float x = gl_FragCoord.x / resolution.x;
     float y = gl_FragCoord.y / resolution.y;
 
-    vec3 fragPos = vec3(0.0, 0.0, 0.0);
+    vec3 fragPos = vec3(x, y, 0.0);
     vec3 cameraPos = vec3(0.,0.,1.);
 
     vec3 lightDir = normalize(lightPos - fragPos);
     vec3 viewDir = normalize(cameraPos - fragPos);
 
-    vec3 texNorm = vec3(0.0, 0.0, 9.0);
+    vec3 texNorm = normalize(vec3(0.0, 0.0, 1.0));
 
     ${candyShader}
 
@@ -61,12 +61,8 @@ export const fragmentShader = `
     }
     /*gl_FragColor = vec4(ambient +
                       lambertian*diffuse +
-                      specular*specColor, 1.0);
-                      */
-
-    //gl_FragColor = vec4(diffuse * finalColor + ambient, 1.0);
-
-
+                      specular*specColor, 1.0);*/
+                      
     gl_FragColor = vec4(finalColor, 1.0);
   }
 `
