@@ -8,6 +8,7 @@ export class Candy {
   private _colorAccent: THREE.Vector3
   private _colorSchemes: THREE.Vector3[]
   private _nColors: number
+  private _candyTime: number
  
   constructor() {
     this._position = new THREE.Vector2(0.5, 0.5)
@@ -16,6 +17,7 @@ export class Candy {
     this._colorAccent =new THREE.Vector3(0.1, 0.1, 0.1)
     this._nColors = 4
     this._colorSchemes = new Array(this._nColors*2)
+    this._candyTime = 0.0;
   }
 
   public setup = () => {
@@ -29,6 +31,7 @@ export class Candy {
     let excludeUpper = snakePosition.addScalar(0.2);
     this.newColorScheme(THREE.Math.randInt(0,this._nColors-1))
     this.setRandPosition(0+this.radius, excludeLower, excludeUpper, 1-this.radius);
+    this.candyTime = time;
   }
 
   private setRandPosition = (low: number, exclLow: THREE.Vector2, exclHigh: THREE.Vector2, high: number) => {
@@ -71,6 +74,7 @@ export class Candy {
   set radius(r: number){ this._radius = r}
   set colorBase(c: THREE.Vector3){ this._colorBase = c }
   set colorAccent(c: THREE.Vector3){ this._colorAccent = c }
+  set candyTime(t: number){this._candyTime = t}
 
   
   get position() { return this._position } 
@@ -78,5 +82,6 @@ export class Candy {
   get colorBase() {return this._colorBase}
   get colorAccent() {return this._colorAccent}
   get colors() {return this._colorSchemes}
+  get candyTime(){return this._candyTime}
 }
 

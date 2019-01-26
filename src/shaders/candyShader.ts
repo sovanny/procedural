@@ -6,7 +6,7 @@ export const candyShader = `
     float cY = (y - candyPosition.y) / candyRadius;
     float candyDist = length(candyPosition - vec2(x, y));
 
-    float divides = 8.0;
+    float divides = candySegments;
     float minorNoise  = sin(pow(float(score), 2.0) + length(vec2(cX, cY)));
 
     float atanAngle = atan(cX , cY );

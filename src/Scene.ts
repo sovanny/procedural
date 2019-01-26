@@ -46,8 +46,7 @@ export class Scene {
       snakeRadius: { type: "f", value: this._snake.radius },
       candyPosition: { type: "v2", value: this._candy.position },
       candyRadius: { type: "f", value: this._candy.radius },
-      candyColorBase: { type: "v3", value: this._candy.colorBase },
-      candyColorAccent: { type: "v3", value: this._candy.colorAccent}, 
+      candyTime: { type: "f", value: 0.1}, 
       score: { type: "i", value: this._score.candiesEaten}
     }
     this._material = new THREE.ShaderMaterial({
@@ -82,18 +81,19 @@ export class Scene {
     this._frameTime = this._secondsCurrentFrame - this._secondsLastFrame
     this._uniforms.time.value = this._secondsCurrentFrame
     this._snake.move(this._frameTime, input)
-    this.checkCandyCollision()
+    this.checkCandyCollision(this._uniforms.time.value)
     this._renderer.render(this._scene, this._camera)
     this._secondsLastFrame = this._secondsCurrentFrame
 
     requestAnimationFrame(this.render)
   }
 
-  public checkCandyCollision = () => {
+  public checkCandyCollision = (time: number) => {
     if (this._snake.position.distanceTo(this._candy.position) < this._eatCandyDistance) {
       this._candy.spawn(this._snake.position, this._frameTime)
       this._score.eatCandy()
-      console.log(this._score.candiesEaten);
+      this._uniforms.candyTime.value = time
+      console.log(this._uniforms.candyTime)
     }
   }
 }
