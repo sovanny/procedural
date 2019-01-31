@@ -1,10 +1,22 @@
 export const patternFunctions = `
 
 
-    const int numberOfColorSchemes = 4;
+  const int numberOfColorSchemes = 4;
   vec3 candyColorBase;
   vec3 candyColorAccent;
   float candySegments;
+  int candyPattern; 
+
+  int getCandyPattern(int ind){
+    //spiral
+    if(ind < 2){
+      return 0;
+    }
+    //randig
+    else{
+      return 1;
+    }
+  }
   
   vec3 getCandyColor(const int ind){
     vec3 colorSchemesCandy[numberOfColorSchemes*2];
@@ -37,12 +49,14 @@ export const patternFunctions = `
  
 
   void setPatternFromTime(float t){
+    //skapar ett index baserat på decimalen i time
     int index = int( floor( (((ceil(t) - t) * 10.))/float(numberOfColorSchemes-1) + 0.5 ) );
     //index = max(float(index), mod(numberOfColorSchemes,index));
 
     candyColorBase = getCandyColor(index*2);
     candyColorAccent = getCandyColor(index*2 + 1);
     candySegments = getSegments(t);
+    candyPattern = getCandyPattern(index);
 
   }
   
