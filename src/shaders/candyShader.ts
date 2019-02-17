@@ -25,51 +25,37 @@ export const candyShader = `
         candyG = candyColorBase.y + candyColorAccent.y*abs(floor(intensity));
         candyB = candyColorBase.z + candyColorAccent.z*abs(floor(intensity));
     
-        //vec3 candyColor = vec3(0.3, 1.0, 1.0) * step(length(candyPosition - vec2(x, y)), candyRadius);
         candyColor = vec3(candyR, candyG, candyB)* step(candyDist, modifiedCandyRadius);
     }
-    else if(candyPattern == 1){
-        candyColor = vec3(0.3, 1.0, 1.0) * step(candyDist, candyRadius);
-        //int nPredefinedDots = 6;
-        float dotRadius = 0.006;
-        //int nDots = int(candySegments); 
-        int nDots = 3;
-        vec2 dotPositions[6];
-        float noisePosX, noisePosY;
-        vec2 tempPos;
-        
-        //give the dots random positions
-        for(int i = 0; i < 6; i++){
-            if(i < nDots){
-                noisePosX = snoise(vec3(candyTime + float(i), score, 8.0))*candyRadius;
-                noisePosY = snoise(vec3(score, candyTime + float(i), 8.0))*candyRadius;
-                tempPos = vec2(candyPosition.x + noisePosX, candyPosition.y + noisePosY);
-                dotPositions[i] = tempPos;
-                
-            }
-        }
-        bool ok;
+    /**** DOT PATTERN ****/
+    else if(candyPattern == 1){        
+        float stripes  = pow(sin(cX*candySegments) + sin(cY*candySegments), 2.0);
 
-        for(int i = 0; i < 6; i++){
-            if(i < nDots){
+        candyR = candyColorBase.x + candyColorAccent.x*abs(floor(stripes));
+        candyG = candyColorBase.y + candyColorAccent.y*abs(floor(stripes));
+        candyB = candyColorBase.z + candyColorAccent.z*abs(floor(stripes));
+        candyColor = vec3(candyR, candyG, candyB)* step(candyDist, candyRadius);
+    }
+    /**** WAVE PATTERN ****/
+    else if(candyPattern == 2){        
+        float stripes  = pow(sin(cX*candySegments) + sin(cY*5.0)*0.2, 2.0);
 
-                float distFromThisDot = length(dotPositions[i] - vec2(x,y));
-                ok = false;
-                for(int j = 0; j < 6; j++){
-                    float distFromOtherDot = length(dotPositions[j] - vec2(x,y));
-                    if(distFromThisDot < dotRadius && distFromOtherDot > (dotRadius*3.0)){
-                        ok = true;
-                    }else{
-                        ok = false;
-                    }
-                }
-                if(ok == true){
-                    candyColor = vec3(0.1, 0.2, 0.3);
-                }
-                
-            }
-        }
-        
+        candyR = candyColorBase.x + candyColorAccent.x*abs(1. - floor(stripes + 0.5));
+        candyG = candyColorBase.y + candyColorAccent.y*abs(1. - floor(stripes + 0.5));
+        candyB = candyColorBase.z + candyColorAccent.z*abs(1. - floor(stripes + 0.5));
+    
+        candyColor = vec3(candyR, candyG, candyB)* step(candyDist, candyRadius);
+    
+    }
+    /**** CHECKER PATTERN ****/
+    else if(candyPattern == 3){        
+        float stripes  = sin(cX*candySegments) + sin(cY*candySegments);
+
+        candyR = candyColorBase.x + candyColorAccent.x*abs(stripes);
+        candyG = candyColorBase.y + candyColorAccent.y*abs(stripes);
+        candyB = candyColorBase.z + candyColorAccent.z*abs(stripes);
+        candyColor = vec3(candyR, candyG, candyB)* step(candyDist, candyRadius);
+    
     }
    
 

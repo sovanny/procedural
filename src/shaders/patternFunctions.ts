@@ -9,13 +9,18 @@ export const patternFunctions = `
 
   int getCandyPattern(int ind){
     //spiral
-    if(ind < 2){
+    if(ind == 0){
       return 0;
     }
-    //randig
-    else{
+    // sprickig
+    else if(ind == 1){
       return 1;
     }
+    //vågor
+    else if(ind == 2){
+      return 2;
+    }
+    else return 3;
   }
   
   vec3 getCandyColor(const int ind){
