@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@types/three": "latest",
+    "gl": "^4.1.1",
     "three": "latest"
   }
 }

@@ -17,5 +17,4 @@ const dataa = fs.readFile('.env', 'utf8', (err: any, data: any) => {
   }
   console.log('\n=============================================================\n')
 })
-
 }
