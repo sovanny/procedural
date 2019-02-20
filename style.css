@@ -13,9 +13,15 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
+  background: #444;
+}
+
+#game-area{
+  width: 75%;
+  height: 100%;
   justify-content: center;
   align-items: center;
-  background: #444;
+  display: flex;
 }
 
 #container {
@@ -24,4 +30,15 @@ body {
   overflow: hidden;
   box-shadow: 1px 3px 10px rgba(0,0,0,0.6);
   background: #666;
+}
+
+#menu-area{
+  width: 25%;
+  height: 100%;
+  background: blue;
+  display: flex;
+}
+
+#current-score{
+  
 }

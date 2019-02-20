@@ -5,6 +5,7 @@ import { patternFunctions } from "./patternFunctions";
 
 export const fragmentShader = `
   uniform float time;
+  uniform float startTime;
   uniform vec2 resolution;
   uniform float snakeRadius;
   uniform vec2 candyPosition;

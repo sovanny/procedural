@@ -6,8 +6,6 @@ import { fragmentShader } from './shaders/fragmentShader'
 import { vertexShader } from './shaders/vertexShader'
 import { Snake } from './Snake'
 import { Score } from './Score'
-import * as gl from 'gl'
-import { Vector3 } from 'three';
 
 const secondsOnMillisecond = 0.001
 
@@ -49,7 +47,7 @@ export class Scene {
     this._score = new Score()
     this._inputManager = new InputManager()
     this._renderTarget = new THREE.WebGLRenderTarget( this._resolution.x, this._resolution.y, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter})
-   
+
     this._uniforms = {
       time: { type: "f", value: 0.0 },
       resolution: { type: "v2", value: this._resolution },
@@ -59,6 +57,7 @@ export class Scene {
       score: { type: "i", value: this._score.candiesEaten},
       snakeTexture: { type: "t", value: this._snake.positionTexture},
       candyTime: { type: "f", value: 0.1}, 
+      startTime:  { type: "f", value: (Date.now() / 10.0) - Math.round(Date.now() / 10.0)}
     }
     this._material = new THREE.ShaderMaterial({
       uniforms: this._uniforms,
