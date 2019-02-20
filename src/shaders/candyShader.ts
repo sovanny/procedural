@@ -1,32 +1,114 @@
 export const candyShader = `
     /**** CANDY ****/
-    float candyR, candyG, candyB;
+    float candyR, candyG, candyB, modifiedCandyRadius;
+    vec3 candyColor;
 
     float cX = (x - candyPosition.x) / candyRadius;
     float cY = (y - candyPosition.y) / candyRadius;
     float candyDist = length(candyPosition - vec2(x, y));
+    
 
-    float divides = 8.0;
-    float minorNoise  = sin(pow(float(score), 2.0) + length(vec2(cX, cY)));
+    /*** SPIRAL PATTERN ***/
+    if(candyPattern == 0){
+        float divides = candySegments;
+        //byt ut till 
+        float minorNoise  = sin(pow(float(score), 2.0) + length(vec2(cX, cY)));
 
-    float atanAngle = atan(cX , cY );
-    float intensity = sin((atanAngle+ minorNoise)*divides);
-
-    float bulgeFactor = abs(intensity*candyRadius*0.05);
-
-    candyR = candyColorBase.x + candyColorAccent.x*abs(floor(intensity));
-    candyG = candyColorBase.y + candyColorAccent.y*abs(floor(intensity));
-    candyB = candyColorBase.z + candyColorAccent.z*abs(floor(intensity));
-
-    //vec3 candyColor = vec3(0.3, 1.0, 1.0) * step(length(candyPosition - vec2(x, y)), candyRadius);
-    vec3 candyColor = vec3(candyR, candyG, candyB)* step(candyDist, candyRadius + bulgeFactor);
-
-    float normDist = candyDist/(candyRadius + bulgeFactor);
-
-    if(candyDist < candyRadius + bulgeFactor){ //ta bort if-sats
-        texNorm = normalize( vec3( normDist ) );
-        
+        float atanAngle = atan(cX , cY );
+        float intensity = sin((atanAngle+ minorNoise)*divides);
+    
+        //float bulgeFactor = abs(intensity*candyRadius*0.05);
+        float bulgeFactor = 0.;
+        modifiedCandyRadius = candyRadius + bulgeFactor;
+    
+        candyR = candyColorBase.x + candyColorAccent.x*abs(floor(intensity));
+        candyG = candyColorBase.y + candyColorAccent.y*abs(floor(intensity));
+        candyB = candyColorBase.z + candyColorAccent.z*abs(floor(intensity));
+    
+        candyColor = vec3(candyR, candyG, candyB)* step(candyDist, modifiedCandyRadius);
     }
+    /**** DOT PATTERN ****/
+    else if(candyPattern == 1){        
+        float stripes  = pow(sin(cX*candySegments) + sin(cY*candySegments), 2.0);
+
+        candyR = candyColorBase.x + candyColorAccent.x*abs(floor(stripes));
+        candyG = candyColorBase.y + candyColorAccent.y*abs(floor(stripes));
+        candyB = candyColorBase.z + candyColorAccent.z*abs(floor(stripes));
+        candyColor = vec3(candyR, candyG, candyB)* step(candyDist, candyRadius);
+    }
+    /**** WAVE PATTERN ****/
+    else if(candyPattern == 2){        
+        float stripes  = pow(sin(cX*candySegments) + sin(cY*5.0)*0.2, 2.0);
+
+        candyR = candyColorBase.x + candyColorAccent.x*abs(1. - floor(stripes + 0.5));
+        candyG = candyColorBase.y + candyColorAccent.y*abs(1. - floor(stripes + 0.5));
+        candyB = candyColorBase.z + candyColorAccent.z*abs(1. - floor(stripes + 0.5));
+    
+        candyColor = vec3(candyR, candyG, candyB)* step(candyDist, candyRadius);
+    
+    }
+    /**** CHECKER PATTERN ****/
+    else if(candyPattern == 3){        
+        float stripes  = sin(cX*candySegments) + sin(cY*candySegments);
+
+        candyR = candyColorBase.x + candyColorAccent.x*abs(stripes);
+        candyG = candyColorBase.y + candyColorAccent.y*abs(stripes);
+        candyB = candyColorBase.z + candyColorAccent.z*abs(stripes);
+        candyColor = vec3(candyR, candyG, candyB)* step(candyDist, candyRadius);
+    
+    }
+   
+
+    float normDist = candyDist/(candyRadius);
+    float offsetX =1./resolution.x;
+    float offsetY = 1./resolution.y;
+
+    /*
+    if(candyDist < modifiedCandyRadius){ 
+
+        texNorm = vec3(1. - pow(normDist, 16.0));
+        vec3 a = vec3(x, y, texNorm);
+
+        float xo = x + offsetX;
+        float yo = y + offsetY;
+
+        candyDist = length(candyPosition - vec2(xo, y));
+        normDist = candyDist/(modifiedCandyRadius);
+        texNorm = vec3(1. - pow(normDist, 16.0));
+        vec3 b = vec3(xo, y, texNorm);
+
+        candyDist = length(candyPosition - vec2(x, yo));
+        normDist = candyDist/(modifiedCandyRadius);
+        texNorm = vec3(1. - pow(normDist, 16.0));
+        vec3 c = vec3(x, yo, texNorm);
+        
+        texNorm =normalize(cross((b-a),(c-a)));
+
+        // normal mapping 
+
+        vec3 normal = texNorm;
+        vec3 vertPos = fragPos;
+        
+        float lambertian = max(dot(lightDir,normal), 0.0);
+        float specular = 0.0;
+    
+        if(lambertian > 0.0) {
+    
+          vec3 reflectDir = reflect(-lightDir, normal);
+          vec3 viewDir = normalize(-vertPos);
+    
+          float specAngle = max(dot(reflectDir, viewDir), 0.0);
+          specular = pow(specAngle, 4.0);
+    
+    
+        }
+        candyColor = candyColor*0.4 + lambertian*candyColor + specular*specColor;  
+    
+
+    }
+*/
+
+    
 
 
 
