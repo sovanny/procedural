@@ -2,10 +2,12 @@ import * as THREE from 'three'
 
 import { Candy } from './Candy'
 import { Input, InputManager } from './InputManager'
-import { Score } from './Score'
 import { fragmentShader } from './shaders/fragmentShader'
 import { vertexShader } from './shaders/vertexShader'
 import { Snake } from './Snake'
+import { Score } from './Score'
+import * as gl from 'gl'
+import { Vector3 } from 'three';
 
 const secondsOnMillisecond = 0.001
 
@@ -110,6 +112,7 @@ export class Scene {
       this._candy.spawn(this._snake.position, this._frameTime)
       this._score.eatCandy()
       this._uniforms.candyTime.value = time
+      console.log(this._uniforms.candyTime)
     }
   }
 }
