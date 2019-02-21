@@ -10,6 +10,7 @@ export const fragmentShader = `
   uniform vec2 candyPosition;
   uniform float candyRadius;
   uniform float candyTime;
+  uniform float numberOfLinks;
   //uniform vec3 candyColorBase;
   //uniform vec3 candyColorAccent;
   uniform int score;
@@ -22,7 +23,6 @@ export const fragmentShader = `
 
   ${patternFunctions}
 
-
   void main()	{
     float x = gl_FragCoord.x / resolution.x;
     float y = gl_FragCoord.y / resolution.y; 
@@ -33,7 +33,6 @@ export const fragmentShader = `
     //fragPos = vec3(gl_FragCoord);
     vec3 lightDir = normalize(lightPos - fragPos);
     vec3 viewDir = normalize(cameraPos - fragPos);
-
     vec3 texNorm = normalize(vec3(0.0, 0.0, 1.0));
 
     /**** CANDY ****/
@@ -42,8 +41,22 @@ export const fragmentShader = `
     ${candyShader}
 
     /**** SNAKE ****/
-    vec2 head = texture2D(snakeTexture, vec2(0.0, 0.5)).xy;
-    vec3 snakeColor = vec3(1.0, 0.3, 0.3) * step(length(head - vec2(x, y)), snakeRadius);
+    vec2 snakeHeadPosition;
+    vec3 snakeColor = vec3(0.0, 0.0, 0.0);
+    
+    const int maxAmount = 50;
+    for (int i = 0; i < maxAmount; i++) {
+      if (i < int(numberOfLinks)) {
+        float xCoord = float(i) / float(maxAmount) + 1.0 / float(maxAmount * 2);
+        vec4 snakeLink = texture2D(snakeTexture, vec2(xCoord, 0.5)).rgba;
+        snakeHeadPosition = snakeLink.xy;
+        float candyTime = snakeLink.z;
+        float size = snakeLink.a;
+        if (length(snakeColor) < 0.2) {
+          snakeColor = snakeColor + vec3(1.0, 0.3, 0.3) * step(length(snakeHeadPosition - vec2(x, y)), size);
+        }
+      }
+    }
 
 
     /**** SAND ****/

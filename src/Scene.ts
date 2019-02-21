@@ -2,12 +2,10 @@ import * as THREE from 'three'
 
 import { Candy } from './Candy'
 import { Input, InputManager } from './InputManager'
+import { Score } from './Score'
 import { fragmentShader } from './shaders/fragmentShader'
 import { vertexShader } from './shaders/vertexShader'
 import { Snake } from './Snake'
-import { Score } from './Score'
-import * as gl from 'gl'
-import { Vector3 } from 'three';
 
 const secondsOnMillisecond = 0.001
 
@@ -38,7 +36,6 @@ export class Scene {
   constructor(width: number, height: number) {
     this._resolution = new THREE.Vector2(width, height)
     this._textureData = new Float32Array(16)
-
     this._scene = new THREE.Scene()
     this._sceneTexture = new THREE.Scene()
     this._camera = new THREE.PerspectiveCamera(53.1, this._resolution.x / this._resolution.y, 0.1, 2)
@@ -54,6 +51,7 @@ export class Scene {
       time: { type: "f", value: 0.0 },
       resolution: { type: "v2", value: this._resolution },
       snakeRadius: { type: "f", value: this._snake.radius },
+      numberOfLinks: { type: "f", value: this._snake.numberOfLinks },
       candyPosition: { type: "v2", value: this._candy.position },
       candyRadius: { type: "f", value: this._candy.radius },
       score: { type: "i", value: this._score.candiesEaten},
@@ -94,6 +92,7 @@ export class Scene {
     this._frameTime = this._secondsCurrentFrame - this._secondsLastFrame
   
     this._uniforms.time.value = this._secondsCurrentFrame
+    this._uniforms.numberOfLinks.value = this._snake.numberOfLinks
     this._uniforms.snakeTexture.value = this._snake.positionTexture
     // console.log(this._textureData)
     // this._renderer.render(this._sceneTexture, this._camera, this._renderTarget, true)
@@ -113,6 +112,7 @@ export class Scene {
       this._score.eatCandy()
       this._uniforms.candyTime.value = time
       console.log(this._uniforms.candyTime)
+      this._snake.addLink(this._candy.candyTime)
     }
   }
 }
