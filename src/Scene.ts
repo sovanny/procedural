@@ -116,8 +116,8 @@ export class Scene {
     if (this._snake.position.distanceTo(this._candy.position) < this._eatCandyDistance) {
       this._candy.spawn(this._snake.position, this._frameTime)
       this._score.eatCandy()
+      this._snake.addLink(this._uniforms.candyTime.value)
       this._uniforms.candyTime.value = time
-      this._snake.addLink(time)
     }
   }
 
