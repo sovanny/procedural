@@ -87,18 +87,8 @@ export class Scene {
     this._inputManager.setup()
     this._eatCandyDistance = this._candy.radius + this._snake.radius
 
-    document.getElementById('pause-btn').onclick = () =>{
-      if(this._pause == false) this._pause = true
-      else if(this._pause == true){
-        console.log("click")
-        this._pause = false
-        this.render()
-      }
-    }
-    document.getElementById('restart-btn').onclick = () =>{
-      //this.setup()
-      //hur restarta?
-    }
+    this.initButtonListeners()
+
   }
 
   public render = () => {
@@ -128,6 +118,22 @@ export class Scene {
       this._score.eatCandy()
       this._uniforms.candyTime.value = time
       this._snake.addLink(time)
+    }
+  }
+
+  private initButtonListeners = () => {
+    document.getElementById('pause-btn').onclick = () =>{
+      if(this._pause == false) this._pause = true
+      else if(this._pause == true){
+        this._pause = false
+        this.render()
+      }
+    }
+    document.getElementById('restart-btn').onclick = () =>{
+      this.setup()
+      this._score.reset()
+      this._snake = new Snake()
+      this._snake.setup()
     }
   }
 

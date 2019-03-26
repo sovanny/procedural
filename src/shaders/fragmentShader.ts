@@ -2,6 +2,7 @@ import { candyShader } from "./candyShader";
 import { sandShader } from "./sandShader";
 import { simplexNoise } from "./simplexNoise";
 import { patternFunctions } from "./patternFunctions";
+import { snakeShader } from "./snakeShader";
 
 export const fragmentShader = `
   uniform float time;
@@ -42,22 +43,7 @@ export const fragmentShader = `
     ${candyShader}
 
     /**** SNAKE ****/
-    vec2 snakeHeadPosition;
-    vec3 snakeColor = vec3(0.0, 0.0, 0.0);
-    
-    const int maxAmount = 50;
-    for (int i = 0; i < maxAmount; i++) {
-      if (i < int(numberOfLinks)) {
-        float xCoord = float(i) / float(maxAmount) + 1.0 / float(maxAmount * 2);
-        vec4 snakeLink = texture2D(snakeTexture, vec2(xCoord, 0.5)).rgba;
-        snakeHeadPosition = snakeLink.xy;
-        float candyTime = snakeLink.z;
-        float size = snakeLink.a;
-        if (length(snakeColor) < 0.2) {
-          snakeColor = snakeColor + vec3(1.0, 0.3, 0.3) * step(length(snakeHeadPosition - vec2(x, y)), size);
-        }
-      }
-    }
+    ${snakeShader}
 
 
     /**** SAND ****/

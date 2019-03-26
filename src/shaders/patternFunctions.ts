@@ -12,7 +12,7 @@ export const patternFunctions = `
     if(ind == 0){
       return 0;
     }
-    // sprickig
+    // prickig
     else if(ind == 1){
       return 1;
     }

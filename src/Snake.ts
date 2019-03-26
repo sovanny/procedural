@@ -124,7 +124,7 @@ export class Snake {
       candyTime,
       size: factor * (Math.sin(this._links.length) + 1) + minSize,
     })
-    console.log(this._links)
+    //console.log(this._links)
   }
 
   set position(p: THREE.Vector2) { this._links[0].position = p }

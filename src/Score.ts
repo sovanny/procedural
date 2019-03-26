@@ -18,6 +18,10 @@ export class Score{
         if(this.candiesEaten > this.highScore) this.highScore = this.candiesEaten
         this.updateScoreBoard()
     }
+    public reset = () => {
+        this.candiesEaten = 0
+        this.updateScoreBoard()
+    }
     private updateScoreBoard = () =>{
         this._currentScoreBoard.innerHTML = this.candiesEaten.toString()
         this._highScoreBoard.innerHTML = 'High Score: ' + this.highScore.toString()
