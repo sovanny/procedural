@@ -6,7 +6,6 @@ import { Score } from './Score'
 import { fragmentShader } from './shaders/fragmentShader'
 import { vertexShader } from './shaders/vertexShader'
 import { Snake } from './Snake'
-import { Score } from './Score'
 
 const secondsOnMillisecond = 0.001
 
@@ -113,8 +112,7 @@ export class Scene {
       this._candy.spawn(this._snake.position, this._frameTime)
       this._score.eatCandy()
       this._uniforms.candyTime.value = time
-      console.log(this._uniforms.candyTime)
-      this._snake.addLink(this._candy.candyTime)
+      this._snake.addLink(time)
     }
   }
 }

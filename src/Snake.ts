@@ -66,7 +66,7 @@ export class Snake {
       this._links[0].position.add(this._direction.normalize().clone().multiplyScalar(this._speed * timeBetweenFrames))
       this._positionData[0] = this.position.x
       this._positionData[1] = this.position.y
-      this._positionData[2] = 0
+      this._positionData[2] = this._links[0].candyTime
       this._positionData[3] = this._links[0].size
 
       let linkIndex = 0
@@ -124,6 +124,7 @@ export class Snake {
       candyTime,
       size: factor * (Math.sin(this._links.length) + 1) + minSize,
     })
+    console.log(this._links)
   }
 
   set position(p: THREE.Vector2) { this._links[0].position = p }
