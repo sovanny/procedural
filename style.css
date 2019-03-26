@@ -92,6 +92,12 @@ body {
   justify-content: space-around;
 }
 
+#player-menu > div{
+  cursor: pointer;
+}
+#player-menu > div:active{
+  color: #d8c3a5;
+}
 #sound-toggle{
   color: #8e8d8A;
   width: 30%;

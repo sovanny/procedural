@@ -32,6 +32,7 @@ export class Scene {
   private _sceneTexture: THREE.Scene
   private _renderTarget: THREE.WebGLRenderTarget
   private _textureData: Float32Array
+  private _pause: boolean
 
   constructor(width: number, height: number) {
     this._resolution = new THREE.Vector2(width, height)
@@ -46,6 +47,7 @@ export class Scene {
     this._score = new Score()
     this._inputManager = new InputManager()
     this._renderTarget = new THREE.WebGLRenderTarget( this._resolution.x, this._resolution.y, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter})
+    this._pause = false
 
     this._uniforms = {
       time: { type: "f", value: 0.0 },
@@ -84,6 +86,19 @@ export class Scene {
     this._candy.setup()
     this._inputManager.setup()
     this._eatCandyDistance = this._candy.radius + this._snake.radius
+
+    document.getElementById('pause-btn').onclick = () =>{
+      if(this._pause == false) this._pause = true
+      else if(this._pause == true){
+        console.log("click")
+        this._pause = false
+        this.render()
+      }
+    }
+    document.getElementById('restart-btn').onclick = () =>{
+      //this.setup()
+      //hur restarta?
+    }
   }
 
   public render = () => {
@@ -104,7 +119,7 @@ export class Scene {
     this._renderer.render(this._scene, this._camera)
     this._secondsLastFrame = this._secondsCurrentFrame
     
-    requestAnimationFrame(this.render)
+    if(this._pause == false) requestAnimationFrame(this.render)
   }
 
   public checkCandyCollision = (time: number) => {
@@ -116,5 +131,7 @@ export class Scene {
       this._snake.addLink(this._candy.candyTime)
     }
   }
+
+
 }
 

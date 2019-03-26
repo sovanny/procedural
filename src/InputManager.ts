@@ -22,8 +22,8 @@ export class InputManager {
   }
 
   public setup = () => {
-    document.addEventListener('keydown', this.keyDown);
-    document.addEventListener('keyup', this.keyUp);
+    document.addEventListener('keydown', this.keyDown)
+    document.addEventListener('keyup', this.keyUp)
   }
 
   public keyDown = (event: KeyboardEvent) => {
