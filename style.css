@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik:400,700,900');
 html {
   width: 100%;
   height: 100%;
@@ -7,13 +8,22 @@ body {
   width: 100%;
   height: 100%;
   margin: 0;
+  font-family: 'Rubik', sans-serif;
+}
+
+#colorscheme{
+  color: #eae7dc;
+  color: #d8c3a5;
+  color: #8e8d8A;
+  color: #e98074;
+  color: #e85a4f;
 }
 
 .content {
   width: 100%;
   height: 100%;
   display: flex;
-  background: #444;
+  background: #eae7dc;
 }
 
 #game-area{
@@ -29,51 +39,64 @@ body {
   height: 720px;
   overflow: hidden;
   box-shadow: 1px 3px 10px rgba(0,0,0,0.6);
-  background: #666;
 }
 
 #menu-area{
   width: 25%;
-  height: 100%;
-  background: blue;
+  /*background: url('/img/Desert.png');*/
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#menu-items{
+  justify-content: space-between;
   flex-direction: column;
   align-items: center;
+  display: flex;
+  height: 600px;
 }
 
 #score{
-  width: 50%;
+  width: 100%;
   min-width: 90px;
-  height: 20%;
-  background: turquoise;
-  margin-top: 10vh;
+  min-height: 20%;
+  
 }
 
 #current-score{
   width: 100%;
-  height: 50%;
   min-width: 90px;
-  background: violet;
+  color: #e85a4f;
+  text-align: center;
+  font-size: 5rem;
+  font-weight: 900;
 }
 
 #high-score{
   width: 100%;
-  height: 10%;
-  min-width: 90px;
-  background: red;
+  color: #d8c3a5;
+  text-align: center;
+
+  font-weight: 400;
 }
 
 #player-menu{
+  color: #e98074;
   width: 50%;
   min-width: 90px;
-  height: 20%;
-  background: turquoise;
-  margin-top: 15vh;
+  height: 10%;
+  font-weight: 700;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 #sound-toggle{
-  background: yellow;
+  color: #8e8d8A;
   width: 30%;
-  height: 10%;
-  margin-top: 10vh;
+  min-height: 10%;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
 }

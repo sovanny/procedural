@@ -2,7 +2,6 @@ import * as THREE from 'three'
 
 import { Candy } from './Candy'
 import { Input, InputManager } from './InputManager'
-import { Score } from './Score'
 import { fragmentShader } from './shaders/fragmentShader'
 import { vertexShader } from './shaders/vertexShader'
 import { Snake } from './Snake'
