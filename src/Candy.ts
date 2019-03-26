@@ -9,7 +9,7 @@ export class Candy {
   constructor() {
     this._position = new THREE.Vector2(0.5, 0.5)
     this._radius = 0.025
-    this._candyTime = 0.0;
+    this._candyTime = 0.0
   }
 
   public setup = () => {
@@ -17,22 +17,22 @@ export class Candy {
   }
 
   public spawn = (snakePosition: THREE.Vector2, time: number) => {
-    let excludeLower = snakePosition.subScalar(0.2);
-    let excludeUpper = snakePosition.addScalar(0.2);
-    this.setRandPosition(0+this.radius, excludeLower, excludeUpper, 1-this.radius);
-    this.candyTime = time;
+    let excludeLower = snakePosition.subScalar(0.2)
+    let excludeUpper = snakePosition.addScalar(0.2)
+    this.setRandPosition(0+this.radius, excludeLower, excludeUpper, 1-this.radius)
+    this.candyTime = time
   }
 
   private setRandPosition = (low: number, exclLow: THREE.Vector2, exclHigh: THREE.Vector2, high: number) => {
     let x, y
     do {
-        x = THREE.Math.randFloat(low, high);
+        x = THREE.Math.randFloat(low, high)
     } while( x<exclLow.x && x>exclHigh.x)
     do {
-        y = THREE.Math.randFloat(low, high);
+        y = THREE.Math.randFloat(low, high)
     } while(y<exclLow.y && y>exclHigh.y)
 
-    this._position.set(x, y);
+    this._position.set(x, y)
   }
 
   //set position(p: THREE.Vector2) { this._position = p } 

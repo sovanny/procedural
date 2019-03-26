@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { Input } from './InputManager'
-import { Vector2 } from 'three';
+import { Vector2 } from 'three'
 
 const MAX_LINKS = 50
 export interface SnakeLink {
