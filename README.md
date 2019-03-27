@@ -1,5 +1,5 @@
 # Procedural snek
-https://dist.sovhu774.now.sh/
+https://sovanny.github.io/procedural
 
 ### Install
 `yarn`
