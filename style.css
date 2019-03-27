@@ -43,10 +43,10 @@ body {
 
 #menu-area{
   width: 25%;
-  /*background: url('/img/Desert.png');*/
   display: flex;
   align-items: center;
   justify-content: center;
+
 }
 #menu-items{
   justify-content: space-between;

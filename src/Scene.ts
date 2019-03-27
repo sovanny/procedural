@@ -48,9 +48,10 @@ export class Scene {
     this._inputManager = new InputManager()
     this._renderTarget = new THREE.WebGLRenderTarget( this._resolution.x, this._resolution.y, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter})
     this._pause = false
+    this._frameTime = new Date().getMilliseconds()
 
     this._uniforms = {
-      time: { type: "f", value: 0.0 },
+      time: { type: "f", value: this._frameTime },
       resolution: { type: "v2", value: this._resolution },
       snakeRadius: { type: "f", value: this._snake.radius },
       numberOfLinks: { type: "f", value: this._snake.numberOfLinks },
@@ -58,7 +59,7 @@ export class Scene {
       candyRadius: { type: "f", value: this._candy.radius },
       score: { type: "i", value: this._score.candiesEaten},
       snakeTexture: { type: "t", value: this._snake.positionTexture},
-      candyTime: { type: "f", value: 0.1}, 
+      candyTime: { type: "f", value: this._frameTime}, 
       startTime:  { type: "f", value: (Date.now() / 10.0) - Math.round(Date.now() / 10.0)}
     }
     this._material = new THREE.ShaderMaterial({
@@ -80,7 +81,6 @@ export class Scene {
     this._sceneTexture.add(this._plane.clone())
     this._secondsLastFrame = 0
     this._secondsCurrentFrame = 0
-    this._frameTime = 0
     this._camera.position.z = 1
     this._snake.setup()
     this._candy.setup()

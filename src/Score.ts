@@ -7,7 +7,7 @@ export class Score{
 
     constructor(){
         this._candiesEaten = 0
-        this._highScore = 0
+        this._highScore = Boolean(localStorage.getItem('high_score')) ? Number(localStorage.getItem('high_score')) : 0 
         this._currentScoreBoard = document.getElementById('current-score')
         this._highScoreBoard = document.getElementById('high-score')
         this.updateScoreBoard()
@@ -15,7 +15,10 @@ export class Score{
 
     public eatCandy = () => {
         this.candiesEaten += 1
-        if(this.candiesEaten > this.highScore) this.highScore = this.candiesEaten
+        if(this.candiesEaten > this.highScore){
+            this.highScore = this.candiesEaten
+            localStorage.setItem('high_score',this.highScore.toString())
+        } 
         this.updateScoreBoard()
     }
     public reset = () => {
@@ -24,7 +27,7 @@ export class Score{
     }
     private updateScoreBoard = () =>{
         this._currentScoreBoard.innerHTML = this.candiesEaten.toString()
-        this._highScoreBoard.innerHTML = 'High Score: ' + this.highScore.toString()
+        this._highScoreBoard.innerHTML = 'High Score: ' + localStorage.getItem('high_score')
     }
 
     set candiesEaten(c: number){ this._candiesEaten =c}

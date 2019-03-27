@@ -7,7 +7,6 @@ export const candyShader = `
     float cY = (y - candyPosition.y) / candyRadius;
     float candyDist = length(candyPosition - vec2(x, y));
     
-
     /*** SPIRAL PATTERN ***/
     if(candyPattern == 0){
         float divides = candySegments;
