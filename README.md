@@ -4,9 +4,9 @@
 https://sovanny.github.io/procedural
 
 ### Install
-`git clone https://github.com/sovanny/procedural.git`
-`cd procedural`
-`yarn`
+`git clone https://github.com/sovanny/procedural.git`   
+`cd procedural`   
+`yarn`   
 
 ### Play
 `yarn start`
