@@ -11,5 +11,5 @@ https://sovanny.github.io/procedural
 ### Play
 `yarn start`
 
-### Install
+### Build
 `yarn build`
