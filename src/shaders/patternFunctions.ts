@@ -61,7 +61,7 @@ export const patternFunctions = `
     candyColorBase = getCandyColor(index*2);
     candyColorAccent = getCandyColor(index*2 + 1);
     candySegments = getSegments(t);
-    candyPattern = getCandyPattern(index); //gör till annat index!
+    candyPattern = getCandyPattern(index); //gör till annat index så att färg + mösnter varieras
 
   }
   

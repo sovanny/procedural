@@ -32,7 +32,6 @@ export const fragmentShader = `
     vec3 fragPos = vec3(x, y, 0.0);
     vec3 cameraPos = vec3(0.,0.,1.);
 
-    //fragPos = vec3(gl_FragCoord);
     vec3 lightDir = normalize(lightPos - fragPos);
     vec3 viewDir = normalize(cameraPos - fragPos);
     vec3 texNorm = normalize(vec3(0.0, 0.0, 1.0));

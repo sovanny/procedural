@@ -30,13 +30,10 @@ export class Scene {
   private _eatCandyDistance: number
   private _score: Score
   private _sceneTexture: THREE.Scene
-  private _renderTarget: THREE.WebGLRenderTarget
-  private _textureData: Float32Array
   private _pause: boolean
 
   constructor(width: number, height: number) {
     this._resolution = new THREE.Vector2(width, height)
-    this._textureData = new Float32Array(16)
     this._scene = new THREE.Scene()
     this._sceneTexture = new THREE.Scene()
     this._camera = new THREE.PerspectiveCamera(53.1, this._resolution.x / this._resolution.y, 0.1, 2)
@@ -46,7 +43,6 @@ export class Scene {
     this._candy = new Candy()
     this._score = new Score()
     this._inputManager = new InputManager()
-    this._renderTarget = new THREE.WebGLRenderTarget( this._resolution.x, this._resolution.y, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter})
     this._pause = false
     this._frameTime = new Date().getMilliseconds()
 
@@ -100,10 +96,7 @@ export class Scene {
     this._uniforms.time.value = this._secondsCurrentFrame
     this._uniforms.numberOfLinks.value = this._snake.numberOfLinks
     this._uniforms.snakeTexture.value = this._snake.positionTexture
-    // console.log(this._textureData)
-    // this._renderer.render(this._sceneTexture, this._camera, this._renderTarget, true)
-    // this._renderer.readRenderTargetPixels(this._renderTarget, 0, 0, this._resolution.x, this._resolution.y, this._textureData)
-    
+
     this._snake.move(this._frameTime, input)
     this.checkCandyCollision(this._uniforms.time.value)
     this._renderer.render(this._scene, this._camera)

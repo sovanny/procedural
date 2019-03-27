@@ -6,7 +6,7 @@ export const candyShader = `
     float cX = (x - candyPosition.x) / candyRadius;
     float cY = (y - candyPosition.y) / candyRadius;
     float candyDist = length(candyPosition - vec2(x, y));
-    
+
     /*** SPIRAL PATTERN ***/
     if(candyPattern == 0){
         float divides = candySegments;
@@ -56,59 +56,9 @@ export const candyShader = `
         candyColor = vec3(candyR, candyG, candyB)* step(candyDist, candyRadius);
     
     }
-   
 
     float normDist = candyDist/(candyRadius);
     float offsetX =1./resolution.x;
     float offsetY = 1./resolution.y;
-
-    /*
-    if(candyDist < modifiedCandyRadius){ 
-
-        texNorm = vec3(1. - pow(normDist, 16.0));
-        vec3 a = vec3(x, y, texNorm);
-
-        float xo = x + offsetX;
-        float yo = y + offsetY;
-
-        candyDist = length(candyPosition - vec2(xo, y));
-        normDist = candyDist/(modifiedCandyRadius);
-        texNorm = vec3(1. - pow(normDist, 16.0));
-        vec3 b = vec3(xo, y, texNorm);
-
-        candyDist = length(candyPosition - vec2(x, yo));
-        normDist = candyDist/(modifiedCandyRadius);
-        texNorm = vec3(1. - pow(normDist, 16.0));
-        vec3 c = vec3(x, yo, texNorm);
-        
-        texNorm =normalize(cross((b-a),(c-a)));
-
-        // normal mapping 
-
-        vec3 normal = texNorm;
-        vec3 vertPos = fragPos;
-        
-        float lambertian = max(dot(lightDir,normal), 0.0);
-        float specular = 0.0;
-    
-        if(lambertian > 0.0) {
-    
-          vec3 reflectDir = reflect(-lightDir, normal);
-          vec3 viewDir = normalize(-vertPos);
-    
-          float specAngle = max(dot(reflectDir, viewDir), 0.0);
-          specular = pow(specAngle, 4.0);
-    
-    
-        }
-        candyColor = candyColor*0.4 + lambertian*candyColor + specular*specColor;  
-    
-
-    }
-*/
-
-    
-
-
 
 `
