@@ -5,6 +5,7 @@ import { Vector2 } from 'three'
 const MAX_LINKS = 50
 export interface SnakeLink {
   position: THREE.Vector2
+  velocity: THREE.Vector2
   candyTime: number
   size: number
 }
@@ -23,6 +24,7 @@ export class Snake {
   constructor() {
     const headLink: SnakeLink = {
       position: new THREE.Vector2(0.5, 0.5),
+      velocity: new THREE.Vector2(0, 0),
       candyTime: 0,
       size: 0.01,
     }
@@ -63,7 +65,8 @@ export class Snake {
     if (input.space) { this._standStill = !this._standStill }
 
     if (!this._standStill) {
-      this._links[0].position.add(this._direction.normalize().clone().multiplyScalar(this._speed * timeBetweenFrames))
+      this._links[0].velocity = this._direction.normalize().clone().multiplyScalar(this._speed * timeBetweenFrames)
+      this._links[0].position.add(this._links[0].velocity)
       this._positionData[0] = this.position.x
       this._positionData[1] = this.position.y
       this._positionData[2] = this._links[0].candyTime
@@ -73,11 +76,21 @@ export class Snake {
       let prevLink = this._links[0]
       for (const link of this._links) {
         if (linkIndex !== 0) {
+          
           // calc direction to next link
           const distance: THREE.Vector2 = new THREE.Vector2(0, 0)
-          const d = distance.subVectors(prevLink.position, link.position).length()
-          link.position.add(distance.subVectors(prevLink.position, link.position).normalize().clone().multiplyScalar(this._speed * timeBetweenFrames * d * 40.0))
-          // link.position.add(this._direction.normalize().clone().multiplyScalar(this._speed * timeBetweenFrames))
+          let d = distance.subVectors(prevLink.position, link.position).length()
+          if(d < 0.5) {
+            link.velocity = distance.subVectors(prevLink.position, link.position).normalize().clone().multiplyScalar(this._speed * timeBetweenFrames * d * 40.0)
+          }
+          
+          link.position.add(link.velocity)
+          
+          if (link.position.x < 0) { link.position.x = 1 }
+          if (link.position.y < 0) { link.position.y = 1 }
+          if (link.position.x > 1) { link.position.x = 0 }
+          if (link.position.y > 1) { link.position.y = 0 }
+          
 
           // push link in this direction
           this._positionData[linkIndex * 4] = link.position.x
@@ -99,28 +112,33 @@ export class Snake {
 
   public addLink = (candyTime: number) => {
     const lastLinkPosition = this._links[this._links.length - 1].position
+    const lastLinkVelocity = this._links[this._links.length - 1].velocity
     const factor = 0.003
     const minSize = 0.03
     this._links.push({
       position: new THREE.Vector2(lastLinkPosition.x, lastLinkPosition.y),
+      velocity: new THREE.Vector2(lastLinkVelocity.x, lastLinkVelocity.y),
       candyTime,
       size: factor * (Math.sin(this._links.length) + 1) + minSize,
     })
 
     this._links.push({
       position: new THREE.Vector2(lastLinkPosition.x, lastLinkPosition.y),
+      velocity: new THREE.Vector2(lastLinkVelocity.x, lastLinkVelocity.y),
       candyTime,
       size: factor * (Math.sin(this._links.length) + 1) + minSize,
     })
 
     this._links.push({
       position: new THREE.Vector2(lastLinkPosition.x, lastLinkPosition.y),
+      velocity: new THREE.Vector2(lastLinkVelocity.x, lastLinkVelocity.y),
       candyTime,
       size: factor * (Math.sin(this._links.length) + 1) + minSize,
     })
 
     this._links.push({
       position: new THREE.Vector2(lastLinkPosition.x, lastLinkPosition.y),
+      velocity: new THREE.Vector2(lastLinkVelocity.x, lastLinkVelocity.y),
       candyTime,
       size: factor * (Math.sin(this._links.length) + 1) + minSize,
     })

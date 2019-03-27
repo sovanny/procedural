@@ -15,53 +15,54 @@ export const snakeShader = `
       vec2 linkDirection = normalize(snakeLinkPositionPrev - snakeLinkPosition);
 
       setPatternFromTime(snakeTime);
-      cX = (x - snakeLinkPosition.x) / size;
-      cY = (y - snakeLinkPosition.y) / size;
+      cX = (x);
+      cY = (y);
 
-      if (length(snakeColor) < 0.2) {
+      if (length(snakeLinkPosition - vec2(x, y)) < size) {
         //snakeColor = snakeColor + vec3(linkDirection, sin(candyTime) * 0.5 + 0.5) * step(length(snakeLinkPosition - vec2(x, y)), size);
         
-        /*** SPIRAL PATTERN ***/
-        if(candyPattern == 0){
-            float divides = candySegments;
-            float minorNoise  = sin(pow(float(score), 2.0) + length(vec2(cX, cY)));
+        // /*** SPIRAL PATTERN ***/
+        // if(candyPattern == 0){
+        //     float divides = candySegments;
+        //     float minorNoise  = sin(pow(float(score), 2.0) + length(vec2(cX, cY)));
 
-            float atanAngle = atan(cX , cY );
-            float intensity = sin((atanAngle+ minorNoise)*divides);
+        //     float atanAngle = atan(cX , cY );
+        //     float intensity = sin((atanAngle+ minorNoise)*divides);
         
-            //float bulgeFactor = abs(intensity*candyRadius*0.05);
-            float bulgeFactor = 0.;
-            modifiedCandyRadius = candyRadius + bulgeFactor;
+        //     //float bulgeFactor = abs(intensity*candyRadius*0.05);
+        //     float bulgeFactor = 0.;
+        //     modifiedCandyRadius = candyRadius + bulgeFactor;
         
-            candyR = candyColorBase.x + candyColorAccent.x*abs(floor(intensity));
-            candyG = candyColorBase.y + candyColorAccent.y*abs(floor(intensity));
-            candyB = candyColorBase.z + candyColorAccent.z*abs(floor(intensity));
-        }
-        /**** DOT PATTERN ****/
-        else if(candyPattern == 1){        
-            float stripes  = pow(sin(cX*candySegments) + sin(cY*candySegments), 2.0);
+        //     candyR = candyColorBase.x + candyColorAccent.x*abs(floor(intensity));
+        //     candyG = candyColorBase.y + candyColorAccent.y*abs(floor(intensity));
+        //     candyB = candyColorBase.z + candyColorAccent.z*abs(floor(intensity));
+        // }
+        // /**** DOT PATTERN ****/
+        // else if(candyPattern == 1){        
+        //     float stripes  = pow(sin(cX*candySegments) + sin(cY*candySegments), 2.0);
 
-            candyR = candyColorBase.x + candyColorAccent.x*abs(floor(stripes));
-            candyG = candyColorBase.y + candyColorAccent.y*abs(floor(stripes));
-            candyB = candyColorBase.z + candyColorAccent.z*abs(floor(stripes));
-        }
-        /**** WAVE PATTERN ****/
-        else if(candyPattern == 2){        
-            float stripes  = pow(sin(cX*candySegments) + sin(cY*5.0)*0.2, 2.0);
+        //     candyR = candyColorBase.x + candyColorAccent.x*abs(floor(stripes));
+        //     candyG = candyColorBase.y + candyColorAccent.y*abs(floor(stripes));
+        //     candyB = candyColorBase.z + candyColorAccent.z*abs(floor(stripes));
+        // }
+        // /**** WAVE PATTERN ****/
+        // else if(candyPattern == 2){        
+        //     float stripes  = pow(sin(cX*candySegments) + sin(cY*5.0)*0.2, 2.0);
 
-            candyR = candyColorBase.x + candyColorAccent.x*abs(1. - floor(stripes + 0.5));
-            candyG = candyColorBase.y + candyColorAccent.y*abs(1. - floor(stripes + 0.5));
-            candyB = candyColorBase.z + candyColorAccent.z*abs(1. - floor(stripes + 0.5));
-        }
-        /**** CHECKER PATTERN ****/
-        else if(candyPattern == 3){        
-            float stripes  = sin(cX*candySegments) + sin(cY*candySegments);
+        //     candyR = candyColorBase.x + candyColorAccent.x*abs(1. - floor(stripes + 0.5));
+        //     candyG = candyColorBase.y + candyColorAccent.y*abs(1. - floor(stripes + 0.5));
+        //     candyB = candyColorBase.z + candyColorAccent.z*abs(1. - floor(stripes + 0.5));
+        // }
+        // /**** CHECKER PATTERN ****/
+        // else if(candyPattern == 3){        
+        //     float stripes  = sin(cX*candySegments) + sin(cY*candySegments);
 
-            candyR = candyColorBase.x + candyColorAccent.x*abs(stripes);
-            candyG = candyColorBase.y + candyColorAccent.y*abs(stripes);
-            candyB = candyColorBase.z + candyColorAccent.z*abs(stripes);        
-        }
-        snakeColor = vec3(candyR, candyG, candyB)* step(length(snakeLinkPosition - vec2(x, y)), size);
+        //     candyR = candyColorBase.x + candyColorAccent.x*abs(stripes);
+        //     candyG = candyColorBase.y + candyColorAccent.y*abs(stripes);
+        //     candyB = candyColorBase.z + candyColorAccent.z*abs(stripes);        
+        // }
+
+        snakeColor = (candyColorAccent + candyColorBase) * step(length(snakeLinkPosition - vec2(x, y)), size);
         /*** if head ***/
         if(i == 0){
           snakeColor = vec3(232.0/255.0, 90.0/255.0, 79.0/255.0) * step(length(snakeLinkPosition - vec2(x, y)), size);
